@@ -1,3 +1,4 @@
-require './post'
+
+require './app'
 use ActiveRecord::ConnectionAdapters::ConnectionManagement
-run Post::API
+run PostApp::API
