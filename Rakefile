@@ -21,7 +21,7 @@ namespace :db do
         Post.create!({
                          title: Faker::Lorem.sentence,
                          body: Faker::Lorem.paragraphs(20).join("\n\n"),
-                         creator_id: Random.rand(10),
+                         creator_id: Random.rand(1..10),
                          tags: tags.sample(Random.rand(1..2))
                      })
       end
