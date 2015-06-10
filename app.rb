@@ -9,7 +9,6 @@ module PostApp
     include Grape::ActiveRecord::Extension
     version 'v1'
     format :json
-    prefix :api
 
     helpers do
       def current_user_id
@@ -23,7 +22,12 @@ module PostApp
 
     resource :posts do
       get do
-        Post.all
+        before = params[:before]
+        if before.nil?
+          Post.limit(20)
+        else
+          Post.where('id < ?', before).limit(20)
+        end
       end
 
       params do
@@ -32,7 +36,7 @@ module PostApp
       end
       post do
         Post.create!({
-                         creator_id: current_user,
+                         creator_id: current_user_id,
                          title: params[:title],
                          body: params[:body]
                      })
@@ -51,7 +55,7 @@ module PostApp
           if post.creator_id != current_user_id
             rack_response({error: 'Not authorized to modify this post'}.to_json, 401)
           else
-            post.update({title: params[:title], body: params[:body]}.compact)
+            post.update!({title: params[:title], body: params[:body]}.compact)
           end
         end
       end
