@@ -1,6 +1,8 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    active_model_serializers (0.9.3)
+      activemodel (>= 3.2)
     activemodel (4.2.1)
       activesupport (= 4.2.1)
       builder (~> 3.1)
@@ -25,6 +27,8 @@ GEM
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     equalizer (0.0.11)
+    faker (1.4.3)
+      i18n (~> 0.5)
     grape (0.11.0)
       activesupport
       builder
@@ -35,6 +39,9 @@ GEM
       rack-accept
       rack-mount
       virtus (>= 1.0.0)
+    grape-active_model_serializers (1.3.2)
+      active_model_serializers (>= 0.9.0)
+      grape
     grape-activerecord (0.0.8)
       activerecord (~> 4.0)
       grape (~> 0.1)
@@ -70,7 +77,9 @@ PLATFORMS
 DEPENDENCIES
   activerecord
   activesupport
+  faker
   grape
+  grape-active_model_serializers
   grape-activerecord
   pg
   sqlite3

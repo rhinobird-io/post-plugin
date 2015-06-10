@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150608080818) do
+ActiveRecord::Schema.define(version: 20150610092957) do
 
   create_table "posts", force: :cascade do |t|
     t.string   "title"
@@ -22,5 +22,22 @@ ActiveRecord::Schema.define(version: 20150608080818) do
   end
 
   add_index "posts", ["creator_id"], name: "index_posts_on_creator_id"
+
+  create_table "posts_tags", id: false, force: :cascade do |t|
+    t.integer "post_id"
+    t.integer "tag_id"
+  end
+
+  add_index "posts_tags", ["post_id"], name: "index_posts_tags_on_post_id"
+  add_index "posts_tags", ["tag_id"], name: "index_posts_tags_on_tag_id"
+
+  create_table "tags", force: :cascade do |t|
+    t.string   "name"
+    t.string   "color"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tags", ["name"], name: "index_tags_on_name", unique: true
 
 end
