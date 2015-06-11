@@ -25,6 +25,10 @@ module PostApp
       rack_response({error: e.message}.to_json, 404)
     end
 
+    rescue_from ActiveRecord::RecordInvalid do |e|
+      rack_response({error: e.message}.to_json, 400)
+    end
+
     resource :tags do
       get do
         Tag.all
@@ -53,10 +57,12 @@ module PostApp
         requires :body, type: String
       end
       post do
+        tags = params[:tags].map{|id| Tag.find(id)}
         Post.create!({
                          creator_id: current_user_id,
                          title: params[:title],
-                         body: params[:body]
+                         body: params[:body],
+                         tags: tags
                      })
       end
 
@@ -72,7 +78,8 @@ module PostApp
         if post.creator_id != current_user_id
           rack_response({error: 'Not authorized to modify this post'}.to_json, 401)
         else
-          post.update!({title: params[:title], body: params[:body]}.compact)
+          tags = params[:tags].map{|id| Tag.find(id)}
+          post.update!({title: params[:title], body: params[:body], tags: tags}.compact)
         end
       end
     end
