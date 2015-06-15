@@ -11,7 +11,7 @@ module PostApp
     version 'v1'
     format :json
     formatter :json, Grape::Formatter::ActiveModelSerializers
-
+    ActiveRecord::Base.logger = nil
     helpers do
       def current_user_id
         env['HTTP_X_USER'].to_i if env['HTTP_X_USER']

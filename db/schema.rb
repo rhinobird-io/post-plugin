@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20150610092957) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "posts", force: :cascade do |t|
     t.string   "title"
     t.text     "body"
@@ -21,15 +24,15 @@ ActiveRecord::Schema.define(version: 20150610092957) do
     t.datetime "updated_at"
   end
 
-  add_index "posts", ["creator_id"], name: "index_posts_on_creator_id"
+  add_index "posts", ["creator_id"], name: "index_posts_on_creator_id", using: :btree
 
   create_table "posts_tags", id: false, force: :cascade do |t|
     t.integer "post_id"
     t.integer "tag_id"
   end
 
-  add_index "posts_tags", ["post_id"], name: "index_posts_tags_on_post_id"
-  add_index "posts_tags", ["tag_id"], name: "index_posts_tags_on_tag_id"
+  add_index "posts_tags", ["post_id"], name: "index_posts_tags_on_post_id", using: :btree
+  add_index "posts_tags", ["tag_id"], name: "index_posts_tags_on_tag_id", using: :btree
 
   create_table "tags", force: :cascade do |t|
     t.string   "name"
@@ -38,6 +41,6 @@ ActiveRecord::Schema.define(version: 20150610092957) do
     t.datetime "updated_at"
   end
 
-  add_index "tags", ["name"], name: "index_tags_on_name", unique: true
+  add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
 
 end

@@ -8,8 +8,8 @@ gem 'grape-activerecord'
 gem 'grape-active_model_serializers'
 gem 'activesupport'
 gem 'pg'
+gem 'faker'
 
 group :development do
   gem 'sqlite3'
-  gem 'faker'
 end
