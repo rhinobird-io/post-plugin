@@ -82,6 +82,14 @@ module PostApp
           post.update!({title: params[:title], body: params[:body], tags: tags}.compact)
         end
       end
+      delete ':id' do
+        post = Post.find(params[:id])
+        if post.creator_id != current_user_id
+          rack_response({error: 'Not authorized to delete this post'}.to_json, 401)
+        else
+          post.destroy!
+        end
+      end
     end
   end
 end
